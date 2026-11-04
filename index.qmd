@@ -1,0 +1,35 @@
+---
+title: "Age"
+---
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+library(tidyverse)
+
+# Load the saved Census tract data
+sarasota_age <- read_rds("sarasota_age.rds") |>
+  drop_na(estimate)
+
+# Plot the distribution of median age across tracts
+sarasota_age |>
+  ggplot(aes(x = estimate)) +
+  geom_histogram(binwidth = 3, fill = "#2c7fb8", color = "white", alpha = 0.9) +
+  geom_vline(
+    aes(xintercept = median(estimate)),
+    color = "#d95f02",
+    linetype = "dashed",
+    linewidth = 1
+  ) +
+  labs(
+    title = "Distribution of Median Age Across Sarasota County Census Tracts",
+    subtitle = "Dashed orange line shows the median tract age (~58 years)",
+    x = "Median Age (Years)",
+    y = "Number of Census Tracts",
+    caption = "Source: 2018–2022 5-Year American Community Survey (tidycensus)"
+  ) +
+  theme_minimal(base_size = 13)
+```
+
