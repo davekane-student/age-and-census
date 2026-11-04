@@ -1,13 +1,14 @@
 library(tidyverse)
 library(tidycensus)
 
-# Download tract-level median age (B01002_001) for Sarasota County, FL
+# Download tract-level median age (B01002_001) and map geometry for Sarasota County, FL
 sarasota_age <- get_acs(
   geography = "tract",
   variables = c(median_age = "B01002_001"),
   state = "FL",
   county = "Sarasota",
-  year = 2022
+  year = 2022,
+  geometry = TRUE
 )
 
 # Save the data locally so Quarto documents don't have to re-download it
