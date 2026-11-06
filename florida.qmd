@@ -1,0 +1,29 @@
+---
+title: "Florida"
+---
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+library(tidyverse)
+library(sf)
+
+# Load US tracts and filter to Florida
+florida_age <- read_rds("us_tracts_age.rds") |>
+  filter(str_ends(NAME, "; Florida")) |>
+  drop_na(estimate)
+
+# Draw a static map of Florida tracts colored by median age
+florida_age |>
+  ggplot(aes(fill = estimate)) +
+  geom_sf(color = NA) +
+  scale_fill_viridis_c(option = "magma", name = "Median Age") +
+  labs(
+    title = "Median Age by Census Tract in Florida",
+    subtitle = "Central and coastal retirement communities stand out with higher median ages",
+    caption = "Source: 2018–2022 5-Year American Community Survey (tidycensus)"
+  ) +
+  theme_void(base_size = 13)
+```

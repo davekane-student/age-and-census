@@ -8,28 +8,23 @@ title: "Age"
 #| echo: false
 
 library(tidyverse)
+library(sf)
 
-# Load the saved Census tract data
+# Load the saved spatial Census tract data and drop the empty water tract
 sarasota_age <- read_rds("sarasota_age.rds") |>
   drop_na(estimate)
 
-# Plot the distribution of median age across tracts
+# Draw a map of Sarasota County tracts colored by median age
 sarasota_age |>
-  ggplot(aes(x = estimate)) +
-  geom_histogram(binwidth = 3, fill = "#2c7fb8", color = "white", alpha = 0.9) +
-  geom_vline(
-    aes(xintercept = median(estimate)),
-    color = "#d95f02",
-    linetype = "dashed",
-    linewidth = 1
-  ) +
+  ggplot(aes(fill = estimate)) +
+  geom_sf(color = "white", linewidth = 0.2) +
+  scale_fill_viridis_c(option = "magma", name = "Median Age") +
   labs(
-    title = "Distribution of Median Age Across Sarasota County Census Tracts",
-    subtitle = "Dashed orange line shows the median tract age (~58 years)",
-    x = "Median Age (Years)",
-    y = "Number of Census Tracts",
+    title = "Median Age by Census Tract in Sarasota County, FL",
+    subtitle = "Coastal and barrier-island tracts tend to have the oldest populations",
     caption = "Source: 2018–2022 5-Year American Community Survey (tidycensus)"
   ) +
-  theme_minimal(base_size = 13)
+  theme_void(base_size = 13)
 ```
+
 

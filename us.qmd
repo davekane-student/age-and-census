@@ -1,0 +1,30 @@
+---
+title: "United States"
+---
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+library(tidyverse)
+library(sf)
+
+# Load US tracts and filter to the contiguous US so the map fits cleanly
+us_age <- read_rds("us_tracts_age.rds") |>
+  filter(!str_ends(NAME, "; Alaska"), !str_ends(NAME, "; Hawaii")) |>
+  drop_na(estimate)
+
+# Draw a static map of US tracts colored by median age using Albers projection
+us_age |>
+  ggplot(aes(fill = estimate)) +
+  geom_sf(color = NA) +
+  coord_sf(crs = 5070) +
+  scale_fill_viridis_c(option = "magma", name = "Median Age") +
+  labs(
+    title = "Median Age by Census Tract in the United States",
+    subtitle = "Rural tracts in the Northeast, Upper Midwest, and Florida have the oldest populations",
+    caption = "Source: 2018–2022 5-Year American Community Survey (tidycensus)"
+  ) +
+  theme_void(base_size = 13)
+```

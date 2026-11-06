@@ -6,7 +6,11 @@ website:
   navbar:
     left:
       - href: index.qmd
-        text: Home
+        text: Sarasota
+      - href: florida.qmd
+        text: Florida
+      - href: us.qmd
+        text: US
       - about.qmd
 
 format:
@@ -16,6 +20,3 @@ format:
       - brand
     css: styles.css
     toc: true
-
-
-
